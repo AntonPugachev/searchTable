@@ -1,0 +1,32 @@
+.table-body,
+.table-head {
+  display: grid;
+  grid-template-columns:minmax(min-content,3rem)  minmax(9rem, 6fr) repeat(3,minmax(6rem, 2fr) );
+  align-content: start;
+  .grid-off {
+    display: contents;
+  }
+  th, td {
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    text-align: center;
+    height: auto;
+  }
+   tr:nth-child(odd) td {
+    background-color: #ede7c6;
+  }
+  tr:nth-child(even) td {
+    background-color: #ebf6e1;
+  }
+  th{
+    background-color: #afdedf;
+  }
+}
+.hide{
+  visibility: hidden;
+  height: 0;
+}
+.table-body{
+  height: 100%;
+  overflow-y: auto;
+}
