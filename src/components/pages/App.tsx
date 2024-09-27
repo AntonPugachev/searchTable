@@ -9,6 +9,20 @@ interceptor();
 export const App = () => {
   useEffect(() => {
     useCountriesStore.getState().loadCountries();
+    const unsubscribe = useCountriesStore.subscribe(
+      (state) => ({ search: state.search, countries: state.countries }),
+      ({ search, countries }) => {
+        useCountriesStore.setState({
+          filteredCountries: countries.filter((item) => {
+            if (!search) return true;
+            return item.name.official.toLowerCase().includes(search.toLowerCase());
+          }),
+        });
+      },
+    );
+    return () => {
+      unsubscribe();
+    };
   }, []);
   return (
     <div className={'app-wrapper'}>

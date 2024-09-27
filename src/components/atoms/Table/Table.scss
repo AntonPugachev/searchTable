@@ -1,9 +1,12 @@
-.table-body,
-.table-head {
+.table-main{
   display: grid;
-  grid-template-columns:minmax(min-content,3rem)  minmax(9rem, 6fr) repeat(3,minmax(6rem, 2fr) );
+  overflow: hidden;
+  overflow-y: auto;
+  grid-template-columns:max-content  minmax(max-content , 6fr)max-content max-content max-content ;
+
   align-content: start;
-  .grid-off {
+  tbody,caption,
+  thead ,tr{
     display: contents;
   }
   th, td {
@@ -11,22 +14,23 @@
     display: flex;
     text-align: center;
     height: auto;
+    min-height: 40px;
   }
-   tr:nth-child(odd) td {
-    background-color: #ede7c6;
+
+  thead {
+    th {
+      position: sticky;
+      top: 0;
+    }
   }
-  tr:nth-child(even) td {
-    background-color: #ebf6e1;
-  }
-  th{
-    background-color: #afdedf;
-  }
+     tr:nth-child(odd) td {
+      background-color: #ede7c6;
+    }
+    tr:nth-child(even) td {
+      background-color: #ebf6e1;
+    }
+    th{
+      background-color: #afdedf;
+    }
 }
-.hide{
-  visibility: hidden;
-  height: 0;
-}
-.table-body{
-  height: 100%;
-  overflow-y: auto;
-}
+

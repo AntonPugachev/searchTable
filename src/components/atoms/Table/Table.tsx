@@ -2,17 +2,19 @@ import './Table.scss';
 import { HTMLAttributes } from 'react';
 import { useCountriesStore } from '../../../_store/countries.store';
 export const Table = (props: HTMLAttributes<HTMLTableElement>) => {
-  const countries = useCountriesStore((state) => state.countries);
-  const tableBody = countries.map((item) => {
+  const countries = useCountriesStore((state) => state.filteredCountries);
+  const tableBody = countries.map((item, idx) => {
     const curr: string[] = [];
     if (item.currencies) {
       for (const key in item.currencies) {
         curr.push(item.currencies[key].symbol || item.currencies[key].name);
       }
     }
-
+    const onClickHandler = () => {
+      useCountriesStore.setState({ selection: item });
+    };
     return (
-      <tr className={'grid-off'} key={item.ccn3}>
+      <tr key={`${item.ccn3}+${idx}`} onClick={onClickHandler}>
         <td>{item.flag}</td>
         <td>{item.name.official}</td>
         <td>{item.population}</td>
@@ -22,10 +24,9 @@ export const Table = (props: HTMLAttributes<HTMLTableElement>) => {
     );
   });
   return (
-    <table {...props}>
-      <caption className={'hide'}>Countries</caption>
-      <thead className={'table-head'}>
-        <tr className={'grid-off'}>
+    <table {...props} className={'table-main'}>
+      <thead>
+        <tr>
           <th>Flag</th>
           <th>Country Name</th>
           <th>Population</th>
@@ -33,7 +34,7 @@ export const Table = (props: HTMLAttributes<HTMLTableElement>) => {
           <th>Additional info</th>
         </tr>
       </thead>
-      <tbody className={'table-body'}>{tableBody}</tbody>
+      <tbody>{tableBody}</tbody>
     </table>
   );
 };
