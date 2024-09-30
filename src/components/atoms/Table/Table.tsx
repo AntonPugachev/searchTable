@@ -3,6 +3,7 @@ import { HTMLAttributes } from 'react';
 import { useCountriesStore } from '../../../_store/countries.store';
 export const Table = (props: HTMLAttributes<HTMLTableElement>) => {
   const countries = useCountriesStore((state) => state.filteredCountries);
+
   const tableBody = countries.map((item, idx) => {
     const curr: string[] = [];
     if (item.currencies) {

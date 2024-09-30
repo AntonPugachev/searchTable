@@ -1,10 +1,8 @@
-import { create } from 'zustand';
-
 import type { Countries } from '../types';
 import { QueryClientInstance } from '../utils/intrceptor';
 import { getCountriesData } from './getCountriesData/getCountriesData';
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface ICountriesStore {
   selection?: Countries;
@@ -14,21 +12,19 @@ interface ICountriesStore {
   filteredCountries: Countries[];
 }
 
-export const useCountriesStore = create(
+export const useCountriesStore = createWithEqualityFn(
   devtools(
     persist(
-      immer(
-        subscribeWithSelector<ICountriesStore>((setState) => ({
-          countries: [],
-          filteredCountries: [],
-          search: '',
-          selection: undefined,
-          loadCountries: async () => {
-            const data = await QueryClientInstance?.fetchQuery([getCountriesData.id], getCountriesData);
-            setState({ countries: data });
-          },
-        })),
-      ),
+      subscribeWithSelector<ICountriesStore>((setState) => ({
+        countries: [],
+        filteredCountries: [],
+        search: '',
+        selection: undefined,
+        loadCountries: async () => {
+          const data = await QueryClientInstance?.fetchQuery([getCountriesData.id], getCountriesData);
+          setState({ countries: data });
+        },
+      })),
       { name: 'useCountriesStoreLocalStorage' },
     ),
     { name: 'useCountriesStore' },

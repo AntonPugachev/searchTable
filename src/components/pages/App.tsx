@@ -4,11 +4,13 @@ import { useCountriesStore } from '../../_store/countries.store';
 import { interceptor } from '../../utils/intrceptor';
 import { SearchInput } from '../atoms/SearchInput/SearchInput';
 import { Table } from '../atoms/Table';
+import { shallow } from 'zustand/shallow';
 interceptor();
 
 export const App = () => {
   useEffect(() => {
     useCountriesStore.getState().loadCountries();
+
     const unsubscribe = useCountriesStore.subscribe(
       (state) => ({ search: state.search, countries: state.countries }),
       ({ search, countries }) => {
@@ -19,6 +21,7 @@ export const App = () => {
           }),
         });
       },
+      { equalityFn: shallow },
     );
     return () => {
       unsubscribe();
